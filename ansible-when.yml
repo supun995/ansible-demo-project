@@ -1,0 +1,18 @@
+---
+- hosts: webservers
+  tasks:
+    - command: /bin/admin
+      register: results
+      ignore_errors: true
+
+    - command: logger "command failed"
+      when: results is failed
+
+
+    - command: logger "command success"
+      when: results is succeeded
+      tags:
+      - packages
+
+
+

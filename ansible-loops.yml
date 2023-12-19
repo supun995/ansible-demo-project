@@ -1,0 +1,49 @@
+---
+- name: Loop test
+  remote_user: root
+
+  tasks:
+    - name: Installation
+      yum:
+        name: "{{ item }}"
+        state: present
+
+      loop:
+        - firewalld
+        - python3
+
+    ##looping through dictionary list
+
+    - name: add users
+      user:
+        name: "{{ item.name }}"
+        state: present
+        group: "{{ item.group }}"
+      loop:
+        - { name: 'webadmin', group: 'wheel'}
+        - { name: 'webadminz', group: 'apache'}
+
+      ##loop list with conditions
+      - name: loop list with conditions
+        debug: msg=Item is "{{ item }}"
+        loop: [ 0,2,4,6,8 ]
+        when: item > 5
+
+    #loop dict
+    - name: loop through dictionary
+      vars:
+        mydict: {"one": 1, "two": 2}
+      debug:
+        msg: "{{ item.key}}: {{item.value}}"
+      loop: "{{ query('dict',mydict) }}"
+      when: item.value > 2
+
+    #looping with Until condition
+    - shell: /usr/bin/program
+      register: results
+      until: result.stdout.find("success") != -1
+      retries: 5
+      delay: 10
+
+    #registered variables in loop for troubleshooting
+    

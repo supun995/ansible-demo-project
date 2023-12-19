@@ -1,0 +1,10 @@
+---
+- hosts:  all
+  vars:
+    addr: '192.18'
+    Name: user1
+  tasks:
+    - name: Ansible template
+      template:
+        src: welcome.j2
+        dest: /home/user1/welcome.txt

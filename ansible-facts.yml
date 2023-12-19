@@ -1,0 +1,10 @@
+---
+- hosts: webservers
+  tasks:
+    - name: Ansible facts
+      debug:
+        msg:  "{{ ansible_facts['enp0s8']['ipv4']['address'] }}"
+
+    - name: install repo
+      command: rpm -ivh pkg-8.rpm creates=/etc/yum.repos.d/pkg.repo
+      when: "ansible_facts['os_family'] == 'RedHat' and ansible_facts['distribution_version'] == '8'"

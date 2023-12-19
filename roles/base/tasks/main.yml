@@ -1,0 +1,50 @@
+---
+#List of tasks to be executed on all host
+#base template for all hosts
+
+---
+- name: Install firewalld
+  yum:
+    name: firewalld
+    state:  present
+
+- name: Start firewalld serviced
+  service: name:firewalld state=started enabled=yes
+
+##loop test
+
+- name: installation
+  yum: "name={{ item }} state=present"
+  loop: "{{ base_packages }}"
+
+##looping through dictionary list
+
+- name: add users
+  user:
+    name: "{{ item.name }}"
+    state: present
+    group: "{{ item.group }}"
+  loop:
+    - { name: 'webadmin', group: 'wheel'}
+    - { name: 'webadminz', group: 'apache'}
+
+  ##loop list with conditions
+  - name: loop list with conditions
+    debug: msg=Item is "{{ item }}"
+    loop: [ 0,2,4,6,8 ]
+    when: item > 5
+
+#loop dict
+- name: loop through dictionary
+  vars:
+    mydict: {"one": 1, "two": 2}
+  debug:
+    msg: "{{ item.key}}: {{item.value}}"
+  loop: "{{ query('dict',mydict) }}"
+  when: item.value > 2
+
+#looping with Until
+
+
+- include_tasks: centos-repos.yml
+  when: (ansible_distribution == "CentOS") or (ansible_distribution == "RedHat") 

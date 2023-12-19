@@ -1,0 +1,5 @@
+[epel]
+name=Extra Packages for Enterprise Linux {{ ansible_facts['distribution_major_vdersion'] }} - $basesearch
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-{{ ansible_facts['distribution_major_vdersion'] }}

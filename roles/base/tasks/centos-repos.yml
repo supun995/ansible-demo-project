@@ -1,0 +1,10 @@
+---
+- name: COPY EPEL
+  copy:
+    src:  RPM-GPG-KEY-{{ ansible_facts['distribution_major_vdersion'] }}
+    dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-{{ ansible_facts['distribution_major_vdersion'] }}
+
+- name: Create EPEL repo file
+  template:
+    src:  epel.repo.j2
+    dest:  /etc/yum.repos.d/epel.repo

@@ -1,0 +1,8 @@
+##add dependencies, for exapmle other role
+
+# dependencies:
+#   - roles:  apache
+#   vars:
+#     apache_port:  80
+# allow_duplicates: true
+
